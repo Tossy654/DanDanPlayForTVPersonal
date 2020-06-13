@@ -17,6 +17,7 @@ object Deps {
     const val support_leanbackPreference = "androidx.leanback:leanback-preference:${Versions.leanback}"
     const val support_fragment = "androidx.fragment:fragment:${Versions.fragment}"
     const val support_fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragment}"
+    const val support_material = "com.google.android.material:material:${Versions.material}"
 
     const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
     const val kotlin_coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"

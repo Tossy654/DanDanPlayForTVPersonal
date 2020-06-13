@@ -3,6 +3,7 @@ include(
     ":app",
     ":component",
     ":component:tv",
+    ":component:tv-v2",
     ":component:torrent",
     ":component:player",
     ":common",

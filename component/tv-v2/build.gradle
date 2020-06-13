@@ -1,0 +1,20 @@
+apply from: rootProject.file('.buildscript/app-cc-setting.gradle')
+apply from: rootProject.file('.buildscript/app-common-build.gradle')
+
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+        arg("room.schemaLocation", "$projectDir/schemas".toString())
+    }
+}
+
+android {
+    resourcePrefix "tv_"
+}
+
+dependencies {
+    kapt Deps.arouter_compiler
+    kapt Deps.room_compiler
+    kapt Deps.moshi_compiler
+    implementation(Deps.support_material)
+}

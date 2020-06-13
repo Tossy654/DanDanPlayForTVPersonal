@@ -11,6 +11,7 @@ object Versions {
     const val paging = "2.1.2"
     const val leanback = "1.0.0"
     const val fragment = "1.2.4"
+    const val material = "1.3.0-alpha01"
 
     const val kotlin = "1.3.72"
     const val coroutines = "1.3.7" // https://github.com/Kotlin/kotlinx.coroutines
