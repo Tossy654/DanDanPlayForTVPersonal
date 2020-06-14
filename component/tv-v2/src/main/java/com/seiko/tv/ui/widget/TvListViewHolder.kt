@@ -16,7 +16,7 @@ abstract class TvListViewHolder(
         const val TAG = "TvListViewHolder"
     }
 
-    protected lateinit var recyclerView: TvRecyclerView
+    private lateinit var recyclerView: TvRecyclerView
     private var isFocused = false
 
     abstract fun getScrollKey(): String?
@@ -49,7 +49,7 @@ abstract class TvListViewHolder(
 
     override fun onPreBound() {
         scrollState.save(getScrollKey(), getRecyclerView())
-        applyFocusUiState(false)
+//        applyFocusUiState(false)
     }
 
     override fun onBound() {
@@ -62,10 +62,10 @@ abstract class TvListViewHolder(
 
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
         return recyclerView.dispatchKeyEvent(event,
-        consumeEdgeLeft = false,
-        consumeEdgeTop = false,
-        consumeEdgeRight = true, // Consume the event if we've reached the end of the list
-        consumeEdgeBottom = false)
+            consumeEdgeLeft = false,
+            consumeEdgeTop = false,
+            consumeEdgeRight = true, // Consume the event if we've reached the end of the list
+            consumeEdgeBottom = false)
     }
 
     override fun onFocused() {

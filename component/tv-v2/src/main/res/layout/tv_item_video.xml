@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/tv_item_video_width"
     android:layout_height="wrap_content"
-    android:background="@color/tv_selector_item_background">
+    android:background="@drawable/tv_selector_item_background">
     <ImageView
         android:id="@id/tv_image"
         android:layout_width="match_parent"

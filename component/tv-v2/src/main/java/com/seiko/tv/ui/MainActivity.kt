@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.widget.FrameLayout
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.commit
 import androidx.fragment.app.commitNow
 import androidx.navigation.fragment.NavHostFragment
 import com.seiko.tv.R
-import com.seiko.tv.navigation.TvFragmentNavigator
+import com.seiko.tv.ui.base.TvFragmentNavigator
 
 class MainActivity : FragmentActivity() {
 
@@ -30,9 +29,11 @@ class MainActivity : FragmentActivity() {
             replace(CONTAINER_ID, fragment)
         }
 
-        navigator = TvFragmentNavigator(this,
+        navigator = TvFragmentNavigator(
+            this,
             fragment.childFragmentManager,
-            CONTAINER_ID)
+            CONTAINER_ID
+        )
 
         fragment.navController.navigatorProvider.addNavigator(navigator)
         fragment.navController.setGraph(R.navigation.tv_nav_base)

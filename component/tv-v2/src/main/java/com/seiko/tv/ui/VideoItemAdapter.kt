@@ -5,19 +5,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.seiko.tv.data.Video
+import com.seiko.tv.data.model.AnimeBean
 import com.seiko.tv.databinding.TvItemVideoBinding
 import com.seiko.tv.ui.widget.TvItemViewHolder
 import com.seiko.tv.util.loadImage
 
-class VideoItemAdapter(context: Context) : ListAdapter<Video, VideoItemVideoHolder>(DIFF_CALLBACK) {
+class VideoItemAdapter(
+    context: Context
+) : ListAdapter<AnimeBean, VideoItemVideoHolder>(DIFF_CALLBACK) {
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Video>() {
-            override fun areItemsTheSame(oldItem: Video, newItem: Video): Boolean {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<AnimeBean>() {
+            override fun areItemsTheSame(oldItem: AnimeBean, newItem: AnimeBean): Boolean {
                 return oldItem.id == newItem.id
             }
-            override fun areContentsTheSame(oldItem: Video, newItem: Video): Boolean {
+            override fun areContentsTheSame(oldItem: AnimeBean, newItem: AnimeBean): Boolean {
                 return true
             }
         }
@@ -33,7 +35,6 @@ class VideoItemAdapter(context: Context) : ListAdapter<Video, VideoItemVideoHold
     }
 
     override fun onBindViewHolder(holder: VideoItemVideoHolder, position: Int) {
-        holder.onPreBound()
         holder.bind(getItem(position))
         holder.onBound()
     }
@@ -49,10 +50,10 @@ class VideoItemVideoHolder(
     private val binding: TvItemVideoBinding
 ) : TvItemViewHolder(binding.root) {
 
-    fun bind(item: Video) {
-        binding.tvImage.loadImage(itemView, item.backgroundImageUrl)
+    fun bind(item: AnimeBean) {
+        binding.tvImage.loadImage(item.imageUrl)
         binding.tvTitle.text = item.title
-        binding.tvSubtitle.text = item.studio
+        binding.tvSubtitle.text = item.status
     }
 
     override fun onFocused() {

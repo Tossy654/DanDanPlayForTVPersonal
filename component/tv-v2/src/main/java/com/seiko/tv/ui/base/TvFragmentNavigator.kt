@@ -1,5 +1,6 @@
-package com.seiko.tv.navigation
+package com.seiko.tv.ui.base
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
@@ -9,10 +10,10 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
 import androidx.navigation.fragment.FragmentNavigator
-import com.seiko.tv.ui.base.TvFragment
 import timber.log.Timber
 import java.util.*
 
+@SuppressLint("BinaryOperationInTimber")
 @Navigator.Name("tv_fragment")
 class TvFragmentNavigator(
     private val context: Context,
@@ -22,7 +23,7 @@ class TvFragmentNavigator(
 
     companion object {
         private const val TAG = "TvFragmentNavigator"
-        private const val KEY_BACK_STACK_IDS = "androidx-nav-fragment:navigator:backStackIds"
+        private const val KEY_BACK_STACK_IDS = "tv-fragment:navigator:backStackIds"
     }
 
     private val backStack = ArrayDeque<Int>()
@@ -35,7 +36,8 @@ class TvFragmentNavigator(
         }
 
         if (manager.isStateSaved) {
-            Timber.tag(TAG).i("Ignoring popBackStack() call: FragmentManager has already saved its state")
+            Timber.tag(TAG).i("Ignoring popBackStack() call: FragmentManager" +
+                    " has already saved its state")
             return false
         }
 
@@ -54,7 +56,8 @@ class TvFragmentNavigator(
         navigatorExtras: Navigator.Extras?
     ): NavDestination? {
         if (manager.isStateSaved) {
-            Timber.tag(TAG).i("Ignoring navigate() call: FragmentManager has already saved its state")
+            Timber.tag(TAG).i("Ignoring navigate() call: FragmentManager" +
+                    " has already saved its state")
             return null
         }
 
@@ -129,7 +132,10 @@ class TvFragmentNavigator(
 
     fun dispatchKeyEvent(event: KeyEvent): Boolean {
         val tvFragment = currentFragment
-        if (tvFragment is TvFragment && tvFragment.isFocused() && tvFragment.dispatchKeyEvent(event)) {
+        if (tvFragment is TvFragment
+            && tvFragment.isFocused()
+            && tvFragment.dispatchKeyEvent(event)
+        ) {
             return true
         }
         return false

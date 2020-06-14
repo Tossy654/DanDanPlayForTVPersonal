@@ -14,12 +14,17 @@ android {
 }
 
 dependencies {
-    kapt Deps.arouter_compiler
-    kapt Deps.room_compiler
-    kapt Deps.moshi_compiler
     implementation(Deps.support_material)
-    implementation(Deps.glide)
+    implementation(Deps.support_constraintLayout)
     implementation(Deps.navigation)
     implementation(Deps.navigationUi)
     implementation(Deps.navigationFragment)
+    implementation(Deps.glide)
+    implementation(Deps.glideOkhttp)
+    kapt(Deps.glideCompiler)
+    kapt(Deps.arouter_compiler)
+    kapt(Deps.room_compiler)
+    kapt(Deps.moshi_compiler)
+    // 内存泄漏
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.3'
 }

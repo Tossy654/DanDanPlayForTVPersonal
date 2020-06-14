@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.seiko.tv.R
-import com.seiko.tv.data.VideoList
+import com.seiko.tv.data.model.AirDayAnimeBean
 import com.seiko.tv.databinding.TvItemVideoListBinding
 import com.seiko.tv.ui.widget.LinearEdgeDecoration
 import com.seiko.tv.ui.widget.TvListViewHolder
@@ -16,15 +16,15 @@ import com.seiko.tv.ui.widget.TvViewHolderScrollState
 
 class VideoListAdapter(
     private val context: Context
-) : ListAdapter<VideoList, VideoListViewHolder>(DIFF_CALLBACK) {
+) : ListAdapter<AirDayAnimeBean, VideoListViewHolder>(DIFF_CALLBACK) {
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<VideoList>() {
-            override fun areItemsTheSame(oldItem: VideoList, newItem: VideoList): Boolean {
-                return oldItem.title == newItem.title
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<AirDayAnimeBean>() {
+            override fun areItemsTheSame(oldItem: AirDayAnimeBean, newItem: AirDayAnimeBean): Boolean {
+                return oldItem.day == newItem.day
             }
-            override fun areContentsTheSame(oldItem: VideoList, newItem: VideoList): Boolean {
-                return oldItem.videos.size == newItem.videos.size
+            override fun areContentsTheSame(oldItem: AirDayAnimeBean, newItem: AirDayAnimeBean): Boolean {
+                return oldItem.animeList.size == newItem.animeList.size
             }
         }
     }
@@ -32,7 +32,7 @@ class VideoListAdapter(
     private val inflater = LayoutInflater.from(context)
     private val scrollState = TvViewHolderScrollState()
     private val pool = RecyclerView.RecycledViewPool().apply {
-        setMaxRecycledViews(0, 30)
+        setMaxRecycledViews(0, 50)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoListViewHolder {
@@ -61,7 +61,6 @@ class VideoListViewHolder(
     pool: RecyclerView.RecycledViewPool
 ) : TvListViewHolder(binding.root, scrollState) {
 
-    private var videoList: VideoList? = null
     private val adapter = VideoItemAdapter(context)
 
     init {
@@ -78,10 +77,9 @@ class VideoListViewHolder(
         binding.list.adapter = adapter
     }
 
-    fun bind(item: VideoList) {
-        videoList = item
-        binding.tvTitle.text = item.title
-        adapter.submitList(item.videos)
+    fun bind(item: AirDayAnimeBean) {
+        binding.tvTitle.text = getWeekName(item.day)
+        adapter.submitList(item.animeList)
     }
 
     override fun getRecyclerView(): BaseGridView {
@@ -89,7 +87,7 @@ class VideoListViewHolder(
     }
 
     override fun getScrollKey(): String? {
-        return videoList?.title
+        return binding.tvTitle.text.toString()
     }
 
     override fun onFocused() {
@@ -101,4 +99,15 @@ class VideoListViewHolder(
         super.onUnFocused()
         binding.tvTitle.alpha = 0.3f
     }
+}
+
+private fun getWeekName(id: Int) = when(id) {
+    0 -> "周日"
+    1 -> "周一"
+    2 -> "周二"
+    3 -> "周三"
+    4 -> "周四"
+    5 -> "周五"
+    6 -> "周六"
+    else -> ""
 }
