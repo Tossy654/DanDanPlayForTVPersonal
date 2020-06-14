@@ -20,10 +20,16 @@ class VideoListAdapter(
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<AirDayAnimeBean>() {
-            override fun areItemsTheSame(oldItem: AirDayAnimeBean, newItem: AirDayAnimeBean): Boolean {
+            override fun areItemsTheSame(
+                oldItem: AirDayAnimeBean,
+                newItem: AirDayAnimeBean
+            ): Boolean {
                 return oldItem.day == newItem.day
             }
-            override fun areContentsTheSame(oldItem: AirDayAnimeBean, newItem: AirDayAnimeBean): Boolean {
+            override fun areContentsTheSame(
+                oldItem: AirDayAnimeBean,
+                newItem: AirDayAnimeBean
+            ): Boolean {
                 return oldItem.animeList.size == newItem.animeList.size
             }
         }
@@ -43,14 +49,23 @@ class VideoListAdapter(
     }
 
     override fun onBindViewHolder(holder: VideoListViewHolder, position: Int) {
-        holder.onPreBound()
         holder.bind(getItem(position))
         holder.onBound()
+    }
+
+    override fun onViewDetachedFromWindow(holder: VideoListViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        holder.onDetach()
     }
 
     override fun onViewRecycled(holder: VideoListViewHolder) {
         super.onViewRecycled(holder)
         holder.onRecycled()
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        scrollState.clear()
     }
 }
 
@@ -90,14 +105,9 @@ class VideoListViewHolder(
         return binding.tvTitle.text.toString()
     }
 
-    override fun onFocused() {
-        super.onFocused()
-        binding.tvTitle.alpha = 1.0f
-    }
-
-    override fun onUnFocused() {
-        super.onUnFocused()
-        binding.tvTitle.alpha = 0.3f
+    override fun applyFocusUiState(hasFocus: Boolean) {
+        super.applyFocusUiState(hasFocus)
+        binding.tvTitle.alpha = if (hasFocus) 1.0f else 0.3f
     }
 }
 

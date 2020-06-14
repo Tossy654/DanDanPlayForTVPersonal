@@ -21,7 +21,7 @@ class GetAirDayAnimeListUseCase : KoinComponent {
             is Result.Success -> result.data
             is Result.Error -> return result
         }
-        // 今天第几周
+        // 今天第周几
         val weekDay = getDayOfWeek()
         // 每周新番集合
         val resultList = getAirDayAnimeList(weekDay, list)

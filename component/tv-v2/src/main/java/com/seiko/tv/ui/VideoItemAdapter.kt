@@ -16,10 +16,16 @@ class VideoItemAdapter(
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<AnimeBean>() {
-            override fun areItemsTheSame(oldItem: AnimeBean, newItem: AnimeBean): Boolean {
+            override fun areItemsTheSame(
+                oldItem: AnimeBean,
+                newItem: AnimeBean
+            ): Boolean {
                 return oldItem.id == newItem.id
             }
-            override fun areContentsTheSame(oldItem: AnimeBean, newItem: AnimeBean): Boolean {
+            override fun areContentsTheSame(
+                oldItem: AnimeBean,
+                newItem: AnimeBean
+            ): Boolean {
                 return true
             }
         }
@@ -39,11 +45,15 @@ class VideoItemAdapter(
         holder.onBound()
     }
 
+    override fun onViewDetachedFromWindow(holder: VideoItemVideoHolder) {
+        super.onViewDetachedFromWindow(holder)
+        holder.onDetach()
+    }
+
     override fun onViewRecycled(holder: VideoItemVideoHolder) {
         super.onViewRecycled(holder)
         holder.onRecycled()
     }
-
 }
 
 class VideoItemVideoHolder(

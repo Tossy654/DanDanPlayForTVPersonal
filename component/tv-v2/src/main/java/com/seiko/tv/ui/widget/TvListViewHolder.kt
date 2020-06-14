@@ -37,19 +37,11 @@ abstract class TvListViewHolder(
             }
         }
         recyclerView = getRecyclerView() as TvRecyclerView
-        itemView.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
-            override fun onViewDetachedFromWindow(v: View?) {
-                scrollState.save(getScrollKey(), getRecyclerView())
-            }
-            override fun onViewAttachedToWindow(v: View?) {
-            }
-        })
         applyFocusUiState(false)
     }
 
-    override fun onPreBound() {
+    override fun onDetach() {
         scrollState.save(getScrollKey(), getRecyclerView())
-//        applyFocusUiState(false)
     }
 
     override fun onBound() {
@@ -85,7 +77,7 @@ abstract class TvListViewHolder(
     }
 
     open fun applyFocusUiState(hasFocus: Boolean) {
-        getRecyclerView().alpha = if (hasFocus) 1.0f else 0.15f
+        getRecyclerView().alpha = if (hasFocus) 1.0f else 0.3f
     }
 
 }

@@ -181,18 +181,18 @@ class TvRecyclerViewDelegate(
         }
         return nextView
     }
+}
 
-    private fun getFocusDirection(event: KeyEvent): Int {
-        return when (event.keyCode) {
-            KeyEvent.KEYCODE_DPAD_LEFT -> View.FOCUS_LEFT
-            KeyEvent.KEYCODE_DPAD_UP -> View.FOCUS_UP
-            KeyEvent.KEYCODE_DPAD_RIGHT -> View.FOCUS_RIGHT
-            KeyEvent.KEYCODE_DPAD_DOWN -> View.FOCUS_DOWN
-            else -> 0
-        }
+private fun getFocusDirection(event: KeyEvent): Int {
+    return when (event.keyCode) {
+        KeyEvent.KEYCODE_DPAD_LEFT -> View.FOCUS_LEFT
+        KeyEvent.KEYCODE_DPAD_UP -> View.FOCUS_UP
+        KeyEvent.KEYCODE_DPAD_RIGHT -> View.FOCUS_RIGHT
+        KeyEvent.KEYCODE_DPAD_DOWN -> View.FOCUS_DOWN
+        else -> 0
     }
+}
 
-    private fun isScrollEvent(event: KeyEvent): Boolean {
-        return event.isLeft() || event.isUp() || event.isRight() || event.isDown()
-    }
+private fun isScrollEvent(event: KeyEvent): Boolean {
+    return event.isLeft() || event.isUp() || event.isRight() || event.isDown()
 }

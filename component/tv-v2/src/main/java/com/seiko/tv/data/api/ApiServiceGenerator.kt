@@ -16,11 +16,13 @@ class ApiServiceGenerator(
     }
 
     private val newOkHttpClient = okHttpClient.newBuilder()
-        .addInterceptor(HttpLoggingInterceptor().apply {
+        .apply {
             if (BuildConfig.DEBUG) {
-                level = HttpLoggingInterceptor.Level.BODY
+                addInterceptor(HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                })
             }
-        })
+        }
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(DANDAN_API_BASE_URL)

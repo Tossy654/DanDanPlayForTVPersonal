@@ -36,7 +36,7 @@ abstract class TvItemViewHolder(view: View): RecyclerView.ViewHolder(view), TvVi
         }
     }
 
-    override fun onPreBound() {
+    override fun onDetach() {
         // No-op
     }
 

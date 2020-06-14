@@ -6,9 +6,9 @@ interface TvViewHolder {
 
     fun onCreated()
 
-    fun onPreBound()
-
     fun onBound()
+
+    fun onDetach()
 
     fun onRecycled()
 
