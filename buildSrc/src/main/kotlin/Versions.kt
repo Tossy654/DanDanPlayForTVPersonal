@@ -30,6 +30,9 @@ object Versions {
     const val work = "2.3.4"
 
     const val cc_register = "1.1.2" // https://github.com/luckybilly/CC
+
+    const val glide = "4.11.0"
+    const val navigation = "2.3.0-rc01"
 }
 
 object Build {

@@ -46,4 +46,9 @@ object Deps {
 
     const val work_runtimeKtx = "androidx.work:work-runtime-ktx:${Versions.work}"
 
+    const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
+    const val navigationSafeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
+    const val navigation = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
+    const val navigationUi = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
+    const val navigationFragment = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
 }

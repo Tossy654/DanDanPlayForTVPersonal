@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tv_fragment_container" type="id"/>
+    <item name="tv_image" type="id"/>
+    <item name="tv_title" type="id"/>
+    <item name="tv_subtitle" type="id"/>
+</resources>

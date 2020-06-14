@@ -1,5 +1,6 @@
 apply from: rootProject.file('.buildscript/app-cc-setting.gradle')
 apply from: rootProject.file('.buildscript/app-common-build.gradle')
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 kapt {
     arguments {
@@ -17,4 +18,8 @@ dependencies {
     kapt Deps.room_compiler
     kapt Deps.moshi_compiler
     implementation(Deps.support_material)
+    implementation(Deps.glide)
+    implementation(Deps.navigation)
+    implementation(Deps.navigationUi)
+    implementation(Deps.navigationFragment)
 }
