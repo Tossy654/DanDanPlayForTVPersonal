@@ -4,17 +4,10 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.ViewGroup
 import android.view.Window
-import android.widget.RelativeLayout
-import androidx.appcompat.app.AlertDialog
-import androidx.core.app.DialogCompat
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentManager
-import com.seiko.common.R
-import timber.log.Timber
+import androidx.fragment.app.LeakDialogFragment
 
-abstract class BaseDialogFragment : DialogFragment() {
+abstract class BaseDialogFragment : LeakDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = Dialog(requireContext(), theme)
