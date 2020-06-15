@@ -21,7 +21,7 @@ class DownloadTorrentWithDanDanApiUseCase : KoinComponent {
         }
         // 获得字节
         val inputStream = (downloadResult as Result.Success).data
-        val bytes = withContext(Dispatchers.IO) { inputStream.readBytes() }
+        val bytes = inputStream.readBytes()
         // 加载信息
         val info = TorrentInfo(bytes)
         val hash = info.infoHash().toHex()

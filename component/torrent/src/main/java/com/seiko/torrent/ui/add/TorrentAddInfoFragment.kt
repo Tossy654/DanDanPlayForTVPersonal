@@ -37,11 +37,6 @@ class TorrentAddInfoFragment : Fragment() {
         bindViewModel()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        unBindViewModel()
-    }
-
     private fun setupUI() {
         binding.startTorrent.isChecked = viewModel.autoStart
         binding.startTorrent.setOnCheckedChangeListener { _, isChecked ->
@@ -54,11 +49,11 @@ class TorrentAddInfoFragment : Fragment() {
     }
 
     private fun bindViewModel() {
-        viewModel.downloadDir.observe(this) { downloadDir ->
+        viewModel.downloadDir.observe(viewLifecycleOwner) { downloadDir ->
             binding.uploadTorrentInto.text = downloadDir.absolutePath
         }
         // 磁力信息
-        viewModel.magnetInfo.observe(this) { info ->
+        viewModel.magnetInfo.observe(viewLifecycleOwner) { info ->
             binding.torrentName.setText(if (viewModel.customName.isEmpty()) info.name else viewModel.customName)
             binding.torrentHashSum.text = info.sha1hash
 
@@ -68,7 +63,7 @@ class TorrentAddInfoFragment : Fragment() {
             binding.layoutTorrentCreatedInProgram.visibility = View.GONE
         }
         // 种子信息
-        viewModel.torrentMetaInfo.observe(this) { info ->
+        viewModel.torrentMetaInfo.observe(viewLifecycleOwner) { info ->
             binding.torrentName.setText(if (viewModel.customName.isEmpty()) info.torrentName else viewModel.customName)
             binding.torrentHashSum.text = info.sha1Hash
 
@@ -108,12 +103,6 @@ class TorrentAddInfoFragment : Fragment() {
                     .format(Date(info.creationDate))
             }
         }
-    }
-
-    private fun unBindViewModel() {
-        viewModel.downloadDir.removeObservers(this)
-        viewModel.magnetInfo.removeObservers(this)
-        viewModel.torrentMetaInfo.removeObservers(this)
     }
 
 }

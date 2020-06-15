@@ -23,10 +23,6 @@ private const val NUM_FRAGMENTS = 2
 
 private const val FILES_FRAG_POS = 0
 private const val INFO_FRAG_POS = 1
-//private const val STATE_FRAG_POS = 2
-//private const val TRACKERS_FRAG_POS = 3
-//private const val PEERS_FRAG_POS = 4
-//private const val PIECES_FRAG_POS = 5
 
 class TorrentDetailFragment : Fragment()
     , OnItemClickListener {
@@ -96,10 +92,6 @@ class TorrentDetailFragment : Fragment()
             tab.setText(when(position) {
                 FILES_FRAG_POS -> getString(R.string.torrent_files)
                 INFO_FRAG_POS -> getString(R.string.torrent_info)
-//                STATE_FRAG_POS -> getString(R.string.torrent_state)
-//                TRACKERS_FRAG_POS -> getString(R.string.torrent_trackers)
-//                PEERS_FRAG_POS -> getString(R.string.torrent_peers)
-//                PIECES_FRAG_POS -> getString(R.string.torrent_pieces)
                 else -> ""
             })
         }
@@ -161,7 +153,12 @@ class TorrentDetailFragment : Fragment()
 
 }
 
-private class DetailPagerAdapter(fragment: Fragment) : FragmentPagerAdapter(fragment.childFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+private class DetailPagerAdapter(
+    fragment: Fragment
+) : FragmentPagerAdapter(
+    fragment.childFragmentManager,
+    BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
+) {
 
     override fun getCount(): Int = NUM_FRAGMENTS
 
@@ -169,10 +166,6 @@ private class DetailPagerAdapter(fragment: Fragment) : FragmentPagerAdapter(frag
         return when(position) {
             FILES_FRAG_POS -> TorrentDetailFilesFragment.newInstance()
             INFO_FRAG_POS -> TorrentDetailInfoFragment.newInstance()
-//            STATE_FRAG_POS -> TorrentDetailStateFragment.newInstance()
-//            TRACKERS_FRAG_POS -> TorrentDetailTrackersFragment.newInstance()
-//            PEERS_FRAG_POS -> TorrentDetailPeersFragment.newInstance()
-//            PIECES_FRAG_POS -> TorrentDetailPiecesFragment.newInstance()
             else -> throw RuntimeException("Can't create fragment with position=$position.")
         }
     }

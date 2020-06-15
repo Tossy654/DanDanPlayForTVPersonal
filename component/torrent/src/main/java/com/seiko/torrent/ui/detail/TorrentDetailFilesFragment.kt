@@ -55,7 +55,6 @@ class TorrentDetailFilesFragment : Fragment(), TorrentDetailFilesAdapter.OnItemC
     override fun onDestroyView() {
         adapter.setOnItemClickListener(null)
         super.onDestroyView()
-        unBindViewModel()
     }
 
     private fun setupUI() {
@@ -65,16 +64,12 @@ class TorrentDetailFilesFragment : Fragment(), TorrentDetailFilesAdapter.OnItemC
     }
 
     private fun bindViewModel() {
-        viewModel.torrentMetaInfo.observe(this) { info ->
+        viewModel.torrentMetaInfo.observe(viewLifecycleOwner) { info ->
             if (info == null) {
                 return@observe
             }
             adapter.setFileTree(info.fileList.toFileTree())
         }
-    }
-
-    private fun unBindViewModel() {
-        viewModel.torrentMetaInfo.removeObservers(this)
     }
 
     override fun onItemClicked(node: BencodeFileTree) {

@@ -3,6 +3,8 @@ package com.seiko.torrent.domain
 import com.seiko.common.data.Result
 import com.seiko.torrent.util.constants.DATA_TORRENT_INFO_FILE_NAME
 import com.seiko.torrent.util.constants.TORRENT_DATA_DIR
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import org.koin.core.qualifier.named
@@ -14,24 +16,23 @@ import java.io.FileNotFoundException
  */
 class GetTorrentInfoFileUseCase : KoinComponent {
 
-//    private val prefHelper: PrefDataSource by inject()
-
     /**
      * @param magnet 磁力链接 magnet:?xt=urn:btih:WEORDPJIJANN54BH2GNNJ6CSN7KB7S34
      * 将'/'换成'\'
      */
-    operator fun invoke(magnet: String): Result<File> {
-        // 下载路径
-        val dataDir: File by inject(named(TORRENT_DATA_DIR))
+    suspend operator fun invoke(magnet: String): Result<File> {
+        return withContext(Dispatchers.IO) {
+            // 下载路径
+            val dataDir: File by inject(named(TORRENT_DATA_DIR))
 
-        val torrentInfoDir = File(dataDir, DATA_TORRENT_INFO_FILE_NAME)
+            val torrentInfoDir = File(dataDir, DATA_TORRENT_INFO_FILE_NAME)
 
 
-        if (!torrentInfoDir.exists() && !torrentInfoDir.mkdirs()) {
-            return Result.Error(FileNotFoundException("File can't create: ${torrentInfoDir.absolutePath}"))
+            if (!torrentInfoDir.exists() && !torrentInfoDir.mkdirs()) {
+                return@withContext Result.Error(FileNotFoundException("File can't create: ${torrentInfoDir.absolutePath}"))
+            }
+
+            return@withContext Result.Success(File(torrentInfoDir, "${magnet}.torrent"))
         }
-
-//        val torrentName = if (magnet.length > 32) magnet.substring(0, 32) else magnet
-        return Result.Success(File(torrentInfoDir, "${magnet}.torrent"))
     }
 }

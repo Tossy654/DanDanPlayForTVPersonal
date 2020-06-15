@@ -47,7 +47,6 @@ class TorrentAddFilesFragment : Fragment(), DownloadableFilesAdapter.OnItemClick
     override fun onDestroyView() {
         adapter.setOnItemClickListener(null)
         super.onDestroyView()
-        unBindViewModel()
     }
 
     private fun setupUI() {
@@ -59,14 +58,10 @@ class TorrentAddFilesFragment : Fragment(), DownloadableFilesAdapter.OnItemClick
 
     private fun bindViewModel() {
         // 磁力信息
-        viewModel.fileTree.observe(this) { fileTree ->
+        viewModel.fileTree.observe(viewLifecycleOwner) { fileTree ->
             adapter.setFileTree(fileTree)
             updateFileSize()
         }
-    }
-
-    private fun unBindViewModel() {
-        viewModel.fileTree.removeObservers(this)
     }
 
     override fun onItemClicked(node: BencodeFileTree) {

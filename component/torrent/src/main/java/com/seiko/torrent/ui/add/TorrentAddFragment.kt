@@ -72,11 +72,6 @@ class AddTorrentFragment : Fragment()
         checkPermissions()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        unBindViewModel()
-    }
-
     /**
      * 绑定按键监听到Activity
      */
@@ -91,16 +86,12 @@ class AddTorrentFragment : Fragment()
     }
 
     private fun bindViewModel() {
-        viewModel.state.observe(this) { result ->
+        viewModel.state.observe(viewLifecycleOwner) { result ->
             when(result) {
                 is Result.Success -> updateStateUI(result.data)
                 is Result.Error -> handleException(result.exception)
             }
         }
-    }
-
-    private fun unBindViewModel() {
-        viewModel.state.removeObservers(this)
     }
 
     /**

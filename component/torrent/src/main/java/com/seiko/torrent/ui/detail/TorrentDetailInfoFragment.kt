@@ -38,11 +38,6 @@ class TorrentDetailInfoFragment : Fragment() {
         bindViewModel()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        unBindViewModel()
-    }
-
     private fun setupUI() {
         binding.folderChooserButton.setOnClickListener {
 
@@ -50,7 +45,7 @@ class TorrentDetailInfoFragment : Fragment() {
     }
 
     private fun bindViewModel() {
-        viewModel.torrentItem.observe(this) { item ->
+        viewModel.torrentItem.observe(viewLifecycleOwner) { item ->
             if (item == null) {
                 binding.uploadTorrentInto.text = ""
                 binding.freeSpace.text = ""
@@ -64,7 +59,7 @@ class TorrentDetailInfoFragment : Fragment() {
                     .format(Date(item.dateAdded))
             }
         }
-        viewModel.torrentMetaInfo.observe(this) { info ->
+        viewModel.torrentMetaInfo.observe(viewLifecycleOwner) { info ->
             if (info == null) {
                 binding.torrentName.text = ""
                 binding.torrentHashSum.text = ""
@@ -84,11 +79,6 @@ class TorrentDetailInfoFragment : Fragment() {
                     .format(Date(info.creationDate))
             }
         }
-    }
-
-    private fun unBindViewModel() {
-        viewModel.torrentItem.removeObservers(this)
-        viewModel.torrentMetaInfo.removeObservers(this)
     }
 
 }

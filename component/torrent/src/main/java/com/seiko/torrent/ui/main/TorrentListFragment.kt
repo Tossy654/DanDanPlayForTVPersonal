@@ -52,11 +52,6 @@ class TorrentListFragment : Fragment()
         bindViewModel()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        unBindViewModel()
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.torrentList.adapter = adapter
@@ -89,11 +84,7 @@ class TorrentListFragment : Fragment()
     }
 
     private fun bindViewModel() {
-        viewModel.torrentItems.observe(this, adapter::submitList)
-    }
-
-    private fun unBindViewModel() {
-        viewModel.torrentItems.removeObservers(this)
+        viewModel.torrentItems.observe(viewLifecycleOwner, adapter::submitList)
     }
 
     override fun onClick(holder: RecyclerView.ViewHolder, item: Any, position: Int) {

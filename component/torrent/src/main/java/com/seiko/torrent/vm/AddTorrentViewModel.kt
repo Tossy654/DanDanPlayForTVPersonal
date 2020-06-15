@@ -21,8 +21,10 @@ import com.seiko.torrent.data.model.torrent.TorrentMetaInfo
 import com.seiko.torrent.domain.BuildTorrentTaskUseCase
 import com.seiko.torrent.domain.DownloadTorrentWithDanDanApiUseCase
 import com.seiko.torrent.util.extensions.isMagnet
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.libtorrent4j.Priority
 import java.io.File
 
@@ -51,7 +53,7 @@ class AddTorrentViewModel(
      * 种子信息
      */
     private val _torrentMetaInfo = MutableLiveData<TorrentMetaInfo>()
-    val torrentMetaInfo: LiveData<TorrentMetaInfo> = _torrentMetaInfo
+    val torrentMetaInfo: LiveData<TorrentMetaInfo> get() = _torrentMetaInfo
 
     /**
      * 文件树
@@ -82,11 +84,17 @@ class AddTorrentViewModel(
                 // 弹弹接口下载，较快
                 updateState(State.FETCHING_HTTP)
                 delay(50)
-                when(val result = downloadTorrentWithDanDanApi.invoke(path)) {
+                val result = withContext(Dispatchers.IO) {
+                    downloadTorrentWithDanDanApi.invoke(path)
+                }
+                when(result) {
                     is Result.Success -> {
                         updateState(State.FETCHING_HTTP_COMPLETED)
                         source = result.data
-                        updateTorrentInfo(TorrentMetaInfo(source))
+                        val info = withContext(Dispatchers.IO) {
+                            TorrentMetaInfo(source)
+                        }
+                        updateTorrentInfo(info)
                         return@launch
                     }
                     is Result.Error -> {
@@ -112,11 +120,10 @@ class AddTorrentViewModel(
                     is Result.Success -> {
                         updateState(State.FETCHING_HTTP_COMPLETED)
                         source = result.data
-                        updateTorrentInfo(
-                            TorrentMetaInfo(
-                                source
-                            )
-                        )
+                        val info = withContext(Dispatchers.IO) {
+                            TorrentMetaInfo(source)
+                        }
+                        updateTorrentInfo(info)
                     }
                     is Result.Error -> {
                         handleException(result.exception)
@@ -127,11 +134,10 @@ class AddTorrentViewModel(
                 updateState(State.DECODE_TORRENT_FILE)
                 delay(50)
                 source = uri.path!!
-                updateTorrentInfo(
-                    TorrentMetaInfo(
-                        source
-                    )
-                )
+                val info = withContext(Dispatchers.IO) {
+                    TorrentMetaInfo(source)
+                }
+                updateTorrentInfo(info)
                 updateState(State.DECODE_TORRENT_COMPLETED)
             }
             URLUtil.isContentUrl(path) -> {
@@ -142,11 +148,10 @@ class AddTorrentViewModel(
                         updateState(State.DECODE_TORRENT_COMPLETED)
 
                         source = result.data
-                        updateTorrentInfo(
-                            TorrentMetaInfo(
-                                source
-                            )
-                        )
+                        val info = withContext(Dispatchers.IO) {
+                            TorrentMetaInfo(source)
+                        }
+                        updateTorrentInfo(info)
                     }
                     is Result.Error -> {
                         handleException(result.exception)
@@ -168,24 +173,26 @@ class AddTorrentViewModel(
     }
 
     private fun updateTorrentInfo(info: TorrentMetaInfo) {
-        _torrentMetaInfo.value = info
+        viewModelScope.launch(Dispatchers.Default) {
+            _torrentMetaInfo.postValue(info)
 
-        val fileTree = info.fileList.toFileTree()
+            val fileTree = info.fileList.toFileTree()
 
-        val priorities = magnetInfo.value?.filePriorities
-        if (priorities.isNullOrEmpty()) {
-            fileTree.select(true)
-        } else {
-            val size = priorities.size.coerceAtMost(info.fileCount)
-            for (i in 0 until size) {
-                if (priorities[i] == Priority.IGNORE) {
-                    continue
+            val priorities = magnetInfo.value?.filePriorities
+            if (priorities.isNullOrEmpty()) {
+                fileTree.select(true)
+            } else {
+                val size = priorities.size.coerceAtMost(info.fileCount)
+                for (i in 0 until size) {
+                    if (priorities[i] == Priority.IGNORE) {
+                        continue
+                    }
+                    val file = fileTree.find(i) ?: continue
+                    file.select(true)
                 }
-                val file = fileTree.find(i) ?: continue
-                file.select(true)
             }
+            _fileTree.postValue(fileTree)
         }
-        _fileTree.value = fileTree
     }
 
     /**
