@@ -71,14 +71,6 @@ private fun Application.setupARouter() {
  */
 private fun setupStrictModel() {
     if (BuildConfig.DEBUG) {
-        StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder()
-            .detectAll()
-            .penaltyLog()
-            .build())
-        StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder()
-            .detectAll()
-            .penaltyLog()
-            .penaltyDeath()
-            .build())
+        StrictMode.enableDefaults()
     }
 }
