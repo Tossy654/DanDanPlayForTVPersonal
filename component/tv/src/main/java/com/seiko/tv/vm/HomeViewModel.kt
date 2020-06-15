@@ -1,7 +1,6 @@
 package com.seiko.tv.vm
 
 import androidx.lifecycle.*
-import androidx.paging.PagedList
 import com.seiko.tv.domain.bangumi.GetSeriesBangumiAirDayBeansUseCase
 import com.seiko.tv.domain.bangumi.GetBangumiFavoriteUseCase
 import com.seiko.tv.data.model.AirDayBangumiBean
@@ -9,11 +8,7 @@ import com.seiko.tv.data.model.HomeImageBean
 import com.seiko.common.data.Result
 import com.seiko.tv.domain.bangumi.GetBangumiHistoryUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import java.util.*
 
@@ -28,6 +23,7 @@ class HomeViewModel(
      */
     val weekBangumiList: LiveData<List<AirDayBangumiBean>> =
         getWeekBangumiList.invoke(getDayOfWeek())
+            .flowOn(Dispatchers.IO)
             .flatMapConcat { result ->
                 flow {
                     when(result) {

@@ -32,7 +32,7 @@ dependencies {
     api(Deps.koin_viewModel)
 
     // Prefs
-    api(Deps.mmkv_runtime)
+    implementation(Deps.mmkv_runtime)
 
     // Network
     api(Deps.network_retrofit)
@@ -48,12 +48,12 @@ dependencies {
     api(Deps.arouter_api)
 
     // EventBus
-    api 'org.greenrobot:eventbus:3.1.1'
+    api("org.greenrobot:eventbus:3.1.1")
 
     // Log
-    api 'com.jakewharton.timber:timber:4.7.1'
+    api("com.jakewharton.timber:timber:4.7.1")
 
     // Toast
-    implementation 'com.github.Dovar66:DToast:1.1.6'
+    implementation("com.github.Dovar66:DToast:1.1.6")
 
 }

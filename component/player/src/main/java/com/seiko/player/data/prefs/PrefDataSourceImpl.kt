@@ -1,7 +1,9 @@
 package com.seiko.player.data.prefs
 
 import androidx.preference.PreferenceDataStore
-import com.seiko.common.util.prefs.*
+import com.seiko.common.util.boolean
+import com.seiko.common.util.float
+import com.seiko.common.util.string
 
 class PrefDataSourceImpl(prefs: PreferenceDataStore): PrefDataSource {
 

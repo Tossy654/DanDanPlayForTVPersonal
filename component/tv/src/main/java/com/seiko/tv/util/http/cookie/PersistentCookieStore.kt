@@ -1,7 +1,7 @@
 package com.seiko.tv.util.http.cookie
 
 import android.text.TextUtils
-import com.seiko.common.util.prefs.MmkvPreferenceDataStore
+import com.seiko.common.util.BasePreferenceDataStore
 import com.seiko.common.util.toHexString
 import com.seiko.common.util.toModBusByteArray
 import okhttp3.Cookie
@@ -10,7 +10,7 @@ import java.io.*
 
 private const val SEP = ","
 
-class PersistentCookieStore(private val prefs: MmkvPreferenceDataStore) {
+class PersistentCookieStore(private val prefs: BasePreferenceDataStore) {
 
     private val cookies: HashMap<String, HashMap<String, Cookie>> = HashMap()
 

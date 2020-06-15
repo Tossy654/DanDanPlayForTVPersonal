@@ -5,7 +5,7 @@ import com.seiko.tv.data.prefs.PrefDataSourceImpl
 import com.seiko.tv.util.constants.PREFS_NAME_COOKIES
 import com.seiko.tv.util.constants.PREFS_NAME_DEFAULT
 import com.seiko.tv.util.http.cookie.PersistentCookieStore
-import com.seiko.common.util.prefs.createMMKVPreferenceDataStore
+import com.seiko.common.util.createPreferenceDataStore
 import org.koin.dsl.module
 
 internal val prefModule = module {
@@ -15,7 +15,7 @@ internal val prefModule = module {
 
 private fun createCookieStore(): PersistentCookieStore {
     return PersistentCookieStore(
-        createMMKVPreferenceDataStore(
+        createPreferenceDataStore(
             PREFS_NAME_COOKIES
         )
     )
@@ -23,7 +23,7 @@ private fun createCookieStore(): PersistentCookieStore {
 
 private fun createPrefDataSource(): PrefDataSource {
     return PrefDataSourceImpl(
-        createMMKVPreferenceDataStore(
+        createPreferenceDataStore(
             PREFS_NAME_DEFAULT
         )
     )

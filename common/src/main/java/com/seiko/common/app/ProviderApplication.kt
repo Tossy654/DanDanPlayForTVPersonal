@@ -8,7 +8,7 @@ import com.seiko.common.util.AndroidDevices
 import com.seiko.common.util.autosize.AutoSizeConfig
 import com.seiko.common.util.helper.AutoAdaptStrategyFactory
 import com.seiko.common.util.helper.providerAppManager
-import com.seiko.common.util.prefs.initMMKV
+import com.seiko.common.util.initPrefs
 import org.koin.core.context.loadKoinModules
 import timber.log.Timber
 
@@ -32,11 +32,11 @@ class ProviderApplication : InitComponent {
         val autoAdaptStrategyFactory = AutoAdaptStrategyFactory.get()
         AutoSizeConfig.init(application, strategy = autoAdaptStrategyFactory.create())
 
-        // VLC
+        // Activity栈
         application.providerAppManager()
 
         // 初始化MMKV
-        application.initMMKV()
+        application.initPrefs()
     }
 
     override fun onLowMemory() {

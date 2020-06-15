@@ -1,7 +1,7 @@
 package com.seiko.tv.data.prefs
 
 import androidx.preference.PreferenceDataStore
-import com.seiko.common.util.prefs.string
+import com.seiko.common.util.string
 
 class PrefDataSourceImpl(prefs: PreferenceDataStore): PrefDataSource {
 
